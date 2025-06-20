@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCS Token - Country Catalan Style</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FXLR4WHZGE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FXLR4WHZGE');
+    </script>
     <style>
         .entry-title, .page-title, .wp-block-post-title {
             display: none !important;
@@ -226,7 +235,7 @@
                     Premier token blockchain dédié à la danse CCS
                 </p>
                 <p style="margin: 5px 0; color: #96ceb4; font-size: 14px;">
-                    Visites : <span id="public-visit-counter" style="color: #ffd93d; font-weight: bold;">...</span>
+                    Statistiques : <span style="color: #ffd93d; font-weight: bold;">Google Analytics</span>
                 </p>
             </div>
         </div>
@@ -429,7 +438,7 @@ function updatePublicCounter(totalVisits) {
     const publicCounter = document.getElementById('public-visit-counter');
     if (publicCounter) {
         // Animation du nombre qui s'incrémente
-        let currentCount = parseInt(publicCounter.textContent.replace('...', '0')) || 0;
+        let currentCount = parseInt(publicCounter.textContent) || 0;
         const targetCount = totalVisits;
         
         if (currentCount < targetCount) {
@@ -451,39 +460,12 @@ function updatePublicCounter(totalVisits) {
 // Raccourcis admin améliorés
 document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.shiftKey && e.key === 'X') {
-        const password = prompt('🔐 Mot de passe admin CCS:');
-        if (password === 'maxxy2025') {
-            sessionStorage.setItem('ccs_admin', 'true');
-            alert('✅ Mode admin activé !');
-            location.reload();
-        }
-    }
-    
-    // Ctrl+Shift+S pour stats détaillées
-    if (e.ctrlKey && e.shiftKey && e.key === 'S') {
-        const stats = JSON.parse(localStorage.getItem('ccs_advanced_stats') || '{}');
-        console.log('📈 STATISTIQUES DÉTAILLÉES CCS:', stats);
-        
-        // Analyse des visiteurs
-        if (stats.uniqueVisitors) {
-            console.log('👥 ANALYSE VISITEURS:');
-            Object.entries(stats.uniqueVisitors).forEach(([id, data]) => {
-                console.log(`ID: ${id.substring(0,8)}... - Visites: ${data.visitCount} - Première: ${data.firstVisit.substring(0,10)}`);
-            });
-        }
-        
-        alert('📊 Statistiques détaillées dans la console (F12)');
+        alert('🎯 Google Analytics activé - Plus de compteur local nécessaire !');
     }
 });
 
 // INITIALISATION
 setTimeout(() => {
-    initAdvancedCounter();
-    // Initialiser le compteur même si pas de stats
-    const publicCounter = document.getElementById('public-visit-counter');
-    if (publicCounter && publicCounter.textContent === '...') {
-        publicCounter.textContent = '1';
-    }
     updatePrice();
     
     // Mise à jour prix toutes les 30 secondes
@@ -491,6 +473,7 @@ setTimeout(() => {
 }, 1000);
 
 console.log('🎭 CCS Token site chargé avec succès !');
+console.log('📊 Google Analytics (G-FXLR4WHZGE) activé pour statistiques réelles !');
 </script>
 
 </body>

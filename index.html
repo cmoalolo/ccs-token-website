@@ -429,7 +429,7 @@ function updatePublicCounter(totalVisits) {
     const publicCounter = document.getElementById('public-visit-counter');
     if (publicCounter) {
         // Animation du nombre qui s'incrémente
-        let currentCount = parseInt(publicCounter.textContent) || 0;
+        let currentCount = parseInt(publicCounter.textContent.replace('...', '0')) || 0;
         const targetCount = totalVisits;
         
         if (currentCount < targetCount) {
@@ -479,6 +479,11 @@ document.addEventListener('keydown', function(e) {
 // INITIALISATION
 setTimeout(() => {
     initAdvancedCounter();
+    // Initialiser le compteur même si pas de stats
+    const publicCounter = document.getElementById('public-visit-counter');
+    if (publicCounter && publicCounter.textContent === '...') {
+        publicCounter.textContent = '1';
+    }
     updatePrice();
     
     // Mise à jour prix toutes les 30 secondes

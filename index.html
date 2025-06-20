@@ -225,13 +225,19 @@
                 <p style="margin: 5px 0; color: #4ecdc4;">
                     Premier token blockchain dédié à la danse CCS
                 </p>
+                <p style="margin: 5px 0; color: #96ceb4; font-size: 14px;">
+                    Visites : <span id="public-visit-counter" style="color: #ffd93d; font-weight: bold;">...</span>
+                </p>
             </div>
         </div>
         <p style="margin-top: 10px; color: #ff6b6b; font-weight: bold;">
             🎭 Unissant danse et innovation blockchain 🎭
         </p>
         <div style="margin-top: 15px; font-size: 14px; color: #96ceb4;">
-            Visitez maxxypassion.fr | Contact et informations
+            Visitez <a href="https://maxxypassion.github.io/ccs-token-website/" 
+                      style="color: #ffd93d; text-decoration: none; font-weight: bold; transition: color 0.3s;"
+                      onmouseover="this.style.color='#ffed4e'"
+                      onmouseout="this.style.color='#ffd93d'">maxxypassion</a> | Contact et informations
         </div>
     </div>
     
@@ -372,6 +378,9 @@ function initAdvancedCounter() {
         showAdvancedCounter(stats, today, fingerprint);
     }
     
+    // Afficher le compteur public dans le footer
+    updatePublicCounter(stats.totalVisits);
+    
     console.log('📊 Visite CCS enregistrée:', {
         fingerprint: fingerprint.substring(0, 8) + '...',
         isNew: isNewVisitor,
@@ -413,6 +422,30 @@ function showAdvancedCounter(stats, today, fingerprint) {
         </div>
     `;
     document.body.appendChild(counter);
+}
+
+// Fonction pour mettre à jour le compteur public
+function updatePublicCounter(totalVisits) {
+    const publicCounter = document.getElementById('public-visit-counter');
+    if (publicCounter) {
+        // Animation du nombre qui s'incrémente
+        let currentCount = parseInt(publicCounter.textContent) || 0;
+        const targetCount = totalVisits;
+        
+        if (currentCount < targetCount) {
+            const increment = Math.max(1, Math.floor((targetCount - currentCount) / 10));
+            const timer = setInterval(() => {
+                currentCount += increment;
+                if (currentCount >= targetCount) {
+                    currentCount = targetCount;
+                    clearInterval(timer);
+                }
+                publicCounter.textContent = currentCount.toLocaleString();
+            }, 50);
+        } else {
+            publicCounter.textContent = totalVisits.toLocaleString();
+        }
+    }
 }
 
 // Raccourcis admin améliorés

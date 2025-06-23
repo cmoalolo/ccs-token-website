@@ -355,16 +355,16 @@ function copyContract() {
     });
 }
 
-// Mise à jour prix automatique (améliorée)
+// Mise à jour prix automatique depuis GeckoTerminal
 async function updatePrice() {
     try {
-        const response = await fetch('https://api.dexscreener.com/latest/dex/tokens/0xfa4F7927054c0700dd51c60C928C6D2eCc4f285f');
+        const response = await fetch('https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/0xc42d0a4fea2f9840111a5809567ccfa78cbff4be');
         const data = await response.json();
         
-        if (data.pairs && data.pairs.length > 0) {
-            const pair = data.pairs[0];
-            const price = parseFloat(pair.priceUsd);
-            const change24h = pair.priceChange?.h24 || 0;
+        if (data.data && data.data.attributes) {
+            const poolInfo = data.data.attributes;
+            const price = parseFloat(poolInfo.base_token_price_usd || '0');
+            const change24h = parseFloat(poolInfo.price_change_percentage?.h24 || '0');
             
             // Mise à jour prix
             const priceElement = document.getElementById('current-price');
@@ -381,10 +381,16 @@ async function updatePrice() {
                 changeElement.style.color = change24h > 0 ? '#4ecdc4' : '#ff6b6b';
             }
             
-            console.log('💰 Prix mis à jour:', price);
+            console.log('💰 Prix CCS mis à jour depuis GeckoTerminal:', price);
         }
     } catch (error) {
-        console.log('⚠️ Erreur mise à jour prix:', error);
+        console.log('⚠️ Erreur mise à jour prix GeckoTerminal:', error);
+        // Fallback vers le prix par défaut
+        const priceElement = document.getElementById('current-price');
+        if (priceElement) {
+            priceElement.textContent = '$0.00002048';
+            priceElement.style.color = '#4ecdc4';
+        }
     }
 }
 
@@ -393,12 +399,14 @@ setTimeout(() => {
     updatePrice();
     
     // Mise à jour prix toutes les 30 secondes
-    setInterval(updatePrice, 30000);
+    setInterval(updatePrice, 300000);
 }, 1000);
 
 console.log('🎭 CCS Token site chargé avec succès !');
 console.log('💬 Telegram: t.me/CCS_Token');
 console.log('📊 Google Analytics (G-FXLR4WHZGE) activé pour statistiques réelles !');
+console.log('💰 Prix en temps réel via GeckoTerminal API');
+console.log('🔗 Pool: 0xc42d0a4fea2f9840111a5809567ccfa78cbff4be');
 </script>
 
 </body>
